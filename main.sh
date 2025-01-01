@@ -1,10 +1,5 @@
 #!/bin/bash
 
-# +-------------------------------+
-# | Project: Output Life Progress |
-# +-------------------------------+
-
-# 将字符串转换为日期
 get_date_from_string() {
     date -d "$1" +"%Y-%m-%d"
 }
@@ -41,7 +36,6 @@ months_since_birthday() {
     echo $months_difference
 }
 
-# 计算年龄（年和月）
 age_in_years_and_months() {
     birthday=$(date -d "$1" +"%Y-%m-%d")
     target_day=$(date -d "$2" +"%Y-%m-%d")
@@ -69,7 +63,6 @@ age_in_years_and_months() {
     echo "$age_years years and $age_months months"
 }
 
-# 输出带颜色的行
 write_colored_line() {
     label=$1
     value=$2
@@ -85,11 +78,51 @@ write_colored_line() {
     printf "${color_code}| %-10s %-28s |\n" "$label" "$value"
 }
 
-# 接收参数，默认为今天
+## load config birthday
+LIFE_PROGRESS_DIR=$(dirname $0)
+CONFIG_FILE="$LIFE_PROGRESS_DIR/life-progress.conf"
+if [ -f "$CONFIG_FILE" ]; then
+    source "$CONFIG_FILE"
+fi
+
+my_birthday=${MY_BIRTHDAY:-$(date +"%Y-%m-%d")}
+
+# show help
+show_help() {
+    echo "Usage: $0 [target_date]"
+    echo
+    echo "Options:"
+    echo "  target_date     end date to calculate, today default"
+    echo "                  format could be:"
+    echo "                     - 2025/01/01"
+    echo "                     - 2025-01-01"
+    echo "                     - 20250101"
+    echo "  -h              show help"
+    echo
+    echo "example："
+    echo "  $0             # today prompt"
+    echo "  $0 2030-01-01  # history prompt"
+    exit 0
+}
+
+validate_date() {
+    local date_regex="^([0-9]{4})([-/])?(0[1-9]|1[0-2])([-/])?(0[1-9]|[12][0-9]|3[01])$"
+    if [[ ! $1 =~ $date_regex ]]; then
+        show_help
+    fi
+}
+
+if [ -n "$1" ]; then
+    validate_date "$1"
+fi
+
+if [ "$1" == "-h" ]; then
+    show_help
+fi
+
+
 target_date=${1:-$(date +"%Y-%m-%d")}
 
-# 生日
-my_birthday="2001-08-07"
 days_passed=$(days_since_birthday "$my_birthday" "$target_date")
 weeks_passed=$(weeks_since_birthday "$my_birthday" "$target_date")
 months_passed=$(months_since_birthday "$my_birthday" "$target_date")
