@@ -2,6 +2,8 @@
 
 A simple zsh plugin to show your life progress in days, weeks, months, and age.
 
+![](https://raw.githack.com/bGZo/assets/dev/2024/%E6%88%AA%E5%B1%8F2025-01-01%2010.17.20.png)
+
 ## Installation
 
 ### Manual Installation
