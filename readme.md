@@ -11,7 +11,6 @@ A simple zsh plugin to show your life progress in days, weeks, months, and age.
 Clone this repository and source the plugin in your `.zshrc` file:
 
 ```bash
-git clone  https://github.com/bGZo/proxies.git
 git clone -b shell --single-branch git@github.com:bGZo/life-progress.git ~/.zsh/life-progress
 echo "source ~/.zsh/life-progress/life-progress.plugin.zsh" >> ~/.zshrc
 ```
